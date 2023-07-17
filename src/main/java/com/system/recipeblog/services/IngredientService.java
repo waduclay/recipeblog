@@ -1,14 +1,14 @@
 package com.system.recipeblog.services;
 
 import com.system.recipeblog.models.Ingredient;
+import com.system.recipeblog.models.Recipe;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface IngredientService {
-    Ingredient saveIngredient(Ingredient ingredient);
+    Ingredient saveOrUpdateIngredient(Ingredient ingredient, Recipe recipe);
     List<Ingredient> getAllIngredients();
     Optional<Ingredient> findById(Long id);
-    Ingredient updateIngredient(Ingredient ingredient, Long id);
     void deleteIngredient(Long id);
 }

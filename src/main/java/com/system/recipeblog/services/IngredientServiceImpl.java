@@ -1,7 +1,9 @@
 package com.system.recipeblog.services;
 
 import com.system.recipeblog.models.Ingredient;
+import com.system.recipeblog.models.Recipe;
 import com.system.recipeblog.repositories.IngredientRepository;
+import com.system.recipeblog.repositories.RecipeRepository;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -12,9 +14,31 @@ import java.util.Optional;
 @Transactional
 public class IngredientServiceImpl implements IngredientService{
     private IngredientRepository ingredientRepository;
+    private RecipeRepository recipeRepository;
 
     @Override
-    public Ingredient saveIngredient(Ingredient ingredient) {
+    public Ingredient saveOrUpdateIngredient(Ingredient ingredient, Recipe recipe) {
+        Optional<Recipe> recipeOptional = recipeRepository.findById(recipe.getId());
+
+        if (!recipeOptional.isPresent()) {
+            System.out.println("Recipe not found");
+            return null; // Or throw an exception if necessary
+        }
+
+        recipe = recipeOptional.get();
+
+        Optional<Ingredient> ingredientOptional = recipe.getIngredients().stream().findFirst();
+
+        if (ingredientOptional.isPresent()) {
+            Ingredient ingredientFound = ingredientOptional.get();
+            ingredientFound.setTitle(ingredient.getTitle());
+            ingredientFound.setAmount(ingredient.getAmount());
+        } else {
+            ingredient.setRecipe(recipe);
+            recipe.addIngredient(ingredient);
+        }
+
+        Recipe savedRecipe = recipeRepository.save(recipe);
         return ingredientRepository.save(ingredient);
     }
 
@@ -26,18 +50,6 @@ public class IngredientServiceImpl implements IngredientService{
     @Override
     public Optional<Ingredient> findById(Long id) {
         return ingredientRepository.findById(id);
-    }
-
-    @Override
-    public Ingredient updateIngredient(Ingredient ingredient, Long id) {
-        Ingredient ingredient1 = ingredientRepository.findById(id).get();
-        if(id==null){
-            System.out.println("Ingredient does not exist");
-        }else{
-            ingredient1.setTitle(ingredient.getTitle());
-            ingredient1.setAmount(ingredient.getAmount());
-
-        } return ingredientRepository.save(ingredient1);
     }
 
     @Override

@@ -7,9 +7,13 @@ import com.system.recipeblog.repositories.CategoryRepository;
 import com.system.recipeblog.repositories.IngredientRepository;
 import com.system.recipeblog.repositories.RecipeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.*;
 
+@Service
+@Transactional
 public class RecipeServiceImpl implements RecipeService{
 
     @Autowired

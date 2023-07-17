@@ -5,7 +5,7 @@ import javax.persistence.*;
 import java.util.*;
 
 @Entity
-@Table(name = "CATEGORIES")
+@Table(name = "categories")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -16,13 +16,13 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long id;
 
-    @Column(name = "CATEGORY TITLE")
-    public String categoryTitle;
+    @Column(name = "title")
+    public String title;
 
-    @Column(name = "CATEGORY DESCRIPTION")
-    public String categoryDescription;
+    @Column(name = "description")
+    public String description;
 
-    @ManyToMany
-    private List<Recipe> recipes = new ArrayList<>();
+    @ManyToMany(mappedBy = "categories")
+    private Set<Recipe> recipes;
 
 }

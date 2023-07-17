@@ -5,7 +5,7 @@ import javax.persistence.*;
 import java.util.*;
 
 @Entity
-@Table(name = "RECIPES")
+@Table(name = "recipes")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -16,15 +16,32 @@ public class Recipe {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long id;
 
-    @Column(name = "RECIPE TITLE")
-    public String recipeTitle;
+    @Column(name = "title")
+    public String title;
 
-    @Column(name = "RECIPE DESCRIPTION")
-    public String recipeDescription;
+    @Column(name = "description")
+    public String description;
 
-    @ManyToMany
-    private List<Ingredient> ingredients = new ArrayList<>();
+    @Column(name = "prep_time")
+    private Integer prepTime;
 
-    @ManyToMany
-    private List<Category> categories = new ArrayList<>();
+    @Column(name = "cook_time")
+    private Integer cookTime;
+
+    @Column(name = "servings")
+    private Integer servings;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "recipe")
+    private Set<Ingredient> ingredients = new HashSet<>();
+
+    @JoinTable(name = "recipe_category",
+            joinColumns = @JoinColumn(name = "recipe_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id"))
+    private Set<Category> categories = new HashSet<>();
+
+    public Recipe addIngredient(Ingredient ingredient) {
+        ingredient.setRecipe(this);
+        this.ingredients.add(ingredient);
+        return this;
+    }
 }

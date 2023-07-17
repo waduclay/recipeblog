@@ -6,7 +6,7 @@ import javax.persistence.*;
 import java.util.*;
 
 @Entity
-@Table(name = "INGREDIENTS")
+@Table(name = "ingredient")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -18,10 +18,13 @@ public class Ingredient {
     public Long id;
 
 
-    @Column(name = "INGREDIENT TITLE")
-    public String ingredientTitle;
+    @Column(name = "title")
+    public String title;
 
-    @ManyToMany
-    private List<Recipe> recipes = new ArrayList<>();
+    @Column(name = "amount")
+    public String amount;
+
+    @ManyToOne
+    private Recipe recipe;
 
 }

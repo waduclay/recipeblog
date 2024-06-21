@@ -6,6 +6,7 @@ import com.system.recipeblog.models.Recipe;
 import com.system.recipeblog.repositories.CategoryRepository;
 import com.system.recipeblog.repositories.IngredientRepository;
 import com.system.recipeblog.repositories.RecipeRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,14 +15,11 @@ import java.util.*;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class RecipeServiceImpl implements RecipeService{
-
-    @Autowired
     private RecipeRepository recipeRepository;
     private Recipe recipe;
-    @Autowired
     private CategoryRepository categoryRepository;
-    @Autowired
     private IngredientRepository ingredientRepository;
 
     @Override

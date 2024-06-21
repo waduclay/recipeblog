@@ -2,6 +2,8 @@ package com.system.recipeblog.services;
 
 import com.system.recipeblog.models.Category;
 import com.system.recipeblog.repositories.CategoryRepository;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -10,8 +12,9 @@ import java.util.Optional;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class CategoryServiceImpl implements CategoryService{
-    private CategoryRepository categoryRepository;
+    private final CategoryRepository categoryRepository;
     @Override
     public Category saveCategory(Category category) {
         return categoryRepository.save(category);

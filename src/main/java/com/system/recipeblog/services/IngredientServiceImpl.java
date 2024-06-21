@@ -4,6 +4,7 @@ import com.system.recipeblog.models.Ingredient;
 import com.system.recipeblog.models.Recipe;
 import com.system.recipeblog.repositories.IngredientRepository;
 import com.system.recipeblog.repositories.RecipeRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -12,9 +13,10 @@ import java.util.Optional;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class IngredientServiceImpl implements IngredientService{
-    private IngredientRepository ingredientRepository;
-    private RecipeRepository recipeRepository;
+    private final IngredientRepository ingredientRepository;
+    private final RecipeRepository recipeRepository;
 
     @Override
     public Ingredient saveOrUpdateIngredient(Ingredient ingredient, Recipe recipe) {

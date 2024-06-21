@@ -1,14 +1,15 @@
 package com.system.recipeblog.services;
 
+import com.system.recipeblog.exception.ex.CategoryNotFoundException;
 import com.system.recipeblog.models.Category;
 import com.system.recipeblog.repositories.CategoryRepository;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
-import java.util.Optional;
+
+import static com.system.recipeblog.util.Constants.CATEGORY_NOT_FOUND;
 
 @Service
 @Transactional
@@ -26,23 +27,26 @@ public class CategoryServiceImpl implements CategoryService{
     }
 
     @Override
-    public Optional<Category> findById(Long id) {
-        return categoryRepository.findById(id);
+    public Category findById(Long id) {
+        return categoryRepository.findById(id)
+                .orElseThrow(() -> new CategoryNotFoundException(String.format(CATEGORY_NOT_FOUND, id)));
     }
 
     @Override
-    public Category updateCategory(Category category, Long id) {
-        Category category1 = categoryRepository.findById(id).get();
-        if(id==null){
-            System.out.println("Category does not exist");
-        }else{
+    public Category updateCategory(Category category) {
+        Category category1 = categoryRepository.findById(category.getId())
+                .orElseThrow(() -> new CategoryNotFoundException(String.format(CATEGORY_NOT_FOUND, category.getId())));
+
             category1.setDescription(category.getDescription());
             category1.setTitle(category.getTitle());
-        }return categoryRepository.save(category1);
+        return categoryRepository.save(category1);
     }
 
     @Override
     public void deleteCategory(Long id) {
+        if (!categoryRepository.existsById(id)) {
+            throw new CategoryNotFoundException(String.format(CATEGORY_NOT_FOUND, id));
+        }
         categoryRepository.deleteById(id);
     }
 }

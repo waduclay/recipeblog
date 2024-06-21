@@ -10,7 +10,7 @@ public interface RecipeService {
 
     Recipe saveRecipe(Recipe recipe, Set<Category> categories, Set<Ingredient> ingredients);
     List<Recipe> getRecipes();
-    Optional<Recipe> findById(Long id);
+    Recipe findById(Long id);
     Recipe updateRecipe(Recipe recipe, Set<Category> categories, Set<Ingredient> ingredients, Long id);
     void deleteRecipe(Long id);
 }

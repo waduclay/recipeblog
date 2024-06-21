@@ -6,7 +6,8 @@ import java.util.*;
 
 @Entity
 @Table(name = "recipes")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder

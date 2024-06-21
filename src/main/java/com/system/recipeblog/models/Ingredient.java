@@ -7,7 +7,8 @@ import java.util.*;
 
 @Entity
 @Table(name = "ingredient")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
